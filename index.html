@@ -14,7 +14,7 @@
       let currentTrackIndex = 0;
 
       // Set up the playlist first
-      fetch('./music/')
+      fetch('./')
         .then(response => response.text())
         .then(text => {
           const parser = new DOMParser();
