@@ -1,0 +1,23 @@
+<drivey name="The Tunnel" tint="0.2, 0.7, 0.1" lane-width="3.5" windiness="{1/6}" length="3500">
+  <number id="tarmacShade" value="0.1"></number>
+  <number id="roadLineShade" value="0.8"></number>
+  <shape id="tarmac" shade="{tarmacShade}">
+    <solid width="7"></solid>
+  </shape>
+  <shape id="roadLines" shade="{roadLineShade}" fade="1" y="0.1">
+    <dashed x="3.5" width="0.2" length="30" spacing="2" mirror="true"></dashed>
+    <dashed x="-0.15" width="0.15" length="4" spacing="8"></dashed>
+  </shape>
+  <feature id="crossings" spacing="200">
+    <box y="0.001" length="2" shade="{tarmacShade}"></box>
+    <repeat id="i" value="6">
+      <box x="{i - 2.5}" width="0.5" y="0.01" length="2" shade="{roadLineShade}" fade="1"></box>
+    </repeat>
+  </feature>
+  <feature id="lights" spacing="6">
+    <box x="4" width="0.1" y="4" height="0.1" length="4" mirror="true" shade="1"></box>
+  </feature>
+  <shape id="wall" height="4" shade="0" fade="2">
+    <solid x="5" width="0.4" mirror="true"></solid>
+  </shape>
+</drivey>
