@@ -20,7 +20,7 @@
           const parser = new DOMParser();
           const doc = parser.parseFromString(text, 'text/html');
           const files = [...doc.querySelectorAll('a')]
-            .map(a => `./music/${a.textContent}`)
+            .map(a => `./${a.textContent}`)
             .filter(href => href.endsWith('.flac'));
           
           console.log("Found FLAC files:", files);

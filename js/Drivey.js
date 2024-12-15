@@ -84,7 +84,7 @@ export default class Drivey {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-        console.log("Got response from ./music/:", response);
+        console.log("Got response from ./:", response);
         return response.text();
       })
       .then(text => {
