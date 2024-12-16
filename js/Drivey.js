@@ -74,57 +74,6 @@ const screenResolutions = new Map([
 
 export default class Drivey {
   constructor() {
-    // Add auto-playing music functionality
-    console.log("Starting music setup...");
-    const audioPlayer = new Audio();
-    
-    // Using the correct relative path
-    fetch('./')
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        console.log("Got response from ./:", response);
-        return response.text();
-      })
-      .then(text => {
-        console.log("Raw directory listing:", text);
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(text, 'text/html');
-        
-        const files = [...doc.querySelectorAll('a')]
-          .map(a => a.href)
-          .filter(href => href.endsWith('.flac'));
-        
-        console.log("FLAC files found:", files);
-        
-        if (files.length > 0) {
-          const shuffledPlaylist = [...files].sort(() => Math.random() - 0.5);
-          console.log("Shuffled playlist:", shuffledPlaylist);
-          let currentTrackIndex = 0;
-          
-          audioPlayer.addEventListener('ended', () => {
-            console.log("Track ended, playing next...");
-            currentTrackIndex++;
-            if (currentTrackIndex >= shuffledPlaylist.length) {
-              shuffledPlaylist.sort(() => Math.random() - 0.5);
-              currentTrackIndex = 0;
-            }
-            audioPlayer.src = shuffledPlaylist[currentTrackIndex];
-            audioPlayer.play().catch(e => console.error("Error playing next track:", e));
-          });
-
-          console.log("Attempting to play first track:", shuffledPlaylist[0]);
-          audioPlayer.src = shuffledPlaylist[0];
-          audioPlayer.play()
-            .then(() => console.log("Successfully started playback"))
-            .catch(e => console.error("Error starting playback:", e));
-        } else {
-          console.error("No FLAC files found in music directory");
-        }
-      })
-      .catch(error => console.error("Error setting up music:", error));
-
     this.currentEffect = "ombré";
     this.npcControlScheme = new Input();
     this.controlScheme = controlSchemesByName.get(isTouchDevice ? "touch" : "arrows");
