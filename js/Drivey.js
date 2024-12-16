@@ -79,7 +79,7 @@ export default class Drivey {
     const audioPlayer = new Audio();
     
     // Using the correct relative path
-    fetch('.')
+    fetch('./')
       .then(response => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);

@@ -14,19 +14,30 @@
       let currentTrackIndex = 0;
 
       // Set up the playlist first
-      fetch('./')
-        .then(response => response.text())
+      fetch('./*.flac')
+        .then(response => {
+          console.log("Server response status:", response.status);
+          return response.text();
+        })
         .then(text => {
+          console.log("Raw directory listing:", text);
           const parser = new DOMParser();
           const doc = parser.parseFromString(text, 'text/html');
+          
+          // Log all anchor elements found
+          const anchors = doc.querySelectorAll('a');
+          console.log("All anchor elements:", [...anchors].map(a => a.textContent));
+          
           const files = [...doc.querySelectorAll('a')]
-            .map(a => `./${a.textContent}`)
-            .filter(href => href.endsWith('.flac'));
+            .map(a => a.textContent)
+            .filter(text => text.endsWith('.flac'))
+            .map(file => `./music/${file}`);
           
           console.log("Found FLAC files:", files);
           
           if (files.length > 0) {
             shuffledPlaylist = [...files].sort(() => Math.random() - 0.5);
+            console.log("Shuffled playlist:", shuffledPlaylist);
             
             audioPlayer.addEventListener('ended', () => {
               console.log("Track ended, playing next...");
