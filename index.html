@@ -4,14 +4,74 @@
     <title>NightDriver</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" title="main" href="./css/drivey.css" />
+    <style>
+      .audio-controls {
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        z-index: 1000;
+      }
+      
+      .audio-button {
+        background: rgba(0, 0, 0, 0.5);
+        color: white;
+        border: 1px solid white;
+        padding: 5px 10px;
+        margin-right: 5px;
+        cursor: pointer;
+        font-family: Arial, sans-serif;
+      }
+      
+      .audio-button:hover {
+        background: rgba(0, 0, 0, 0.7);
+      }
+
+      .version {
+        position: fixed;
+        bottom: 10px;
+        left: 10px;
+        color: rgba(255, 255, 255, 0.3);
+        font-family: Arial, sans-serif;
+        font-size: 12px;
+        z-index: 1000;
+      }
+    </style>
   </head>
   <body>
+    <div class="audio-controls">
+      <button id="muteButton" class="audio-button">Mute</button>
+      <button id="skipButton" class="audio-button">Skip</button>
+    </div>
+    <div class="version">v2.1</div>
     <script src="./lib/theme.js"></script>
     <script type="module">
       console.log("Starting music setup...");
       const audioPlayer = new Audio();
       let shuffledPlaylist = [];
       let currentTrackIndex = 0;
+      let isMuted = false;
+
+      // Get button elements
+      const muteButton = document.getElementById('muteButton');
+      const skipButton = document.getElementById('skipButton');
+
+      // Mute button handler
+      muteButton.addEventListener('click', () => {
+        isMuted = !isMuted;
+        audioPlayer.muted = isMuted;
+        muteButton.textContent = isMuted ? 'Unmute' : 'Mute';
+      });
+
+      // Skip button handler
+      skipButton.addEventListener('click', () => {
+        currentTrackIndex++;
+        if (currentTrackIndex >= shuffledPlaylist.length) {
+          shuffledPlaylist.sort(() => Math.random() - 0.5);
+          currentTrackIndex = 0;
+        }
+        audioPlayer.src = shuffledPlaylist[currentTrackIndex];
+        audioPlayer.play();
+      });
 
       // Define the list of known FLAC files
       const flacFiles = [
