@@ -35,6 +35,16 @@
         font-size: 12px;
         z-index: 1000;
       }
+
+      .current-song {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        color: rgba(255, 255, 255, 0.3);
+        font-family: Arial, sans-serif;
+        font-size: 12px;
+        z-index: 1000;
+      }
     </style>
   </head>
   <body>
@@ -42,7 +52,8 @@
       <button id="muteButton" class="audio-button">Mute</button>
       <button id="skipButton" class="audio-button">Skip</button>
     </div>
-    <div class="version">v2.1</div>
+    <div class="version">v2.2</div>
+    <div id="currentSong" class="current-song"></div>
     <script src="./lib/theme.js"></script>
     <script type="module">
       console.log("Starting music setup...");
@@ -71,6 +82,7 @@
         }
         audioPlayer.src = shuffledPlaylist[currentTrackIndex];
         audioPlayer.play();
+        updateSongDisplay(shuffledPlaylist[currentTrackIndex]);
       });
 
       // Define the list of known FLAC files
@@ -97,6 +109,7 @@
         }
         audioPlayer.src = shuffledPlaylist[currentTrackIndex];
         audioPlayer.play();
+        updateSongDisplay(shuffledPlaylist[currentTrackIndex]);
       });
 
       // Start playing on first user interaction
@@ -104,6 +117,7 @@
         console.log("Starting first track:", shuffledPlaylist[0]);
         audioPlayer.src = shuffledPlaylist[0];
         audioPlayer.play();
+        updateSongDisplay(shuffledPlaylist[0]);
         // Remove the event listeners once music starts
         document.removeEventListener('click', startMusic);
         document.removeEventListener('keydown', startMusic);
@@ -118,6 +132,11 @@
         passive: false,
       });
       window.drivey = new Drivey();
+
+      function updateSongDisplay(filePath) {
+        const songName = filePath.split('/').pop().replace('.flac', '');
+        document.getElementById('currentSong').textContent = songName;
+      }
     </script>
   </body>
 </html>
